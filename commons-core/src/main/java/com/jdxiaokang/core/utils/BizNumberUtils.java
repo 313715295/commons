@@ -83,6 +83,12 @@ public class BizNumberUtils {
     }
 
     /**
+     * 生成long类型的id  雪花算法
+     */
+    public static long createId() {
+        return SnowFlakeUtil.nextId();
+    }
+    /**
      * 根据业务code和当前时间戳生成业务id  差不多单线程一秒150万个
      * @return bid
      */

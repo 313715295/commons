@@ -1,5 +1,7 @@
 package com.jdxiaokang.core.utils;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.time.LocalDateTime;
 
 import static com.jdxiaokang.core.utils.BizNumberUtils.createNumByDateTime;
@@ -8,9 +10,10 @@ import static com.jdxiaokang.core.utils.BizNumberUtils.createNumByDateTime;
 /**
  * @author zwq  wenqiang.zheng@jdxiaokang.cn
  * @project: settleservice
- * @description:
+ * @description:  仿雪花，时间戳改为当前时间
  * @date 2020/1/3
  */
+@Slf4j
 public class BIdGenerator {
 
     /**
@@ -35,6 +38,9 @@ public class BIdGenerator {
     private static final int SEQUENCE_LENGTH = 10000;
 
     public static void initMachineId(int machineId) {
+        if (machineId < 0 || machineId > 99) {
+            throw new RuntimeException("机器码不符合");
+        }
         BIdGenerator.machineId = machineId;
         if (machineId < 10) {
             machineIdStr = "0" + machineId;
@@ -61,10 +67,20 @@ public class BIdGenerator {
      * @return 序列号
      */
     private static synchronized int nextId(long timestamp) {
+        //获取当前时间戳如果小于上次时间戳，则表示时间戳获取出现异常
+        if (timestamp < lastTimestamp) {
+            log.error("clock is moving backwards.  Rejecting requests until [{}]", lastTimestamp);
+            throw new RuntimeException(String.format("Clock moved backwards.  Refusing to generate id for %d milliseconds",
+                    lastTimestamp - timestamp));
+        }
         if (timestamp == lastTimestamp) {
             //序列最大值2的13次方-1，大于8191则可能重复，但一毫秒8191的可能性很少
             int sequenceMask = 8191;
             sequence = (sequence + 1) & sequenceMask;
+            if (sequence == 0) {
+               //序列号不够用，该次生成失败，可能性很小，因为前面已经提前生成好时间戳了。
+                throw new RuntimeException("生成id失败");
+            }
         } else {
             sequence = 0;
         }
