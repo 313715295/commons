@@ -56,7 +56,7 @@
                         </manifest>
                         <manifestEntries>
                             <Agent-Class>
-                                com.jdxiaokang.orm.dao.plugin.AgentMybatisTraceAgent
+                                com.jdxiaokang.commons.dao.plugin.AgentMybatisTraceAgent
                             </Agent-Class>
                             <Can-Redefine-Classes>
                                 true

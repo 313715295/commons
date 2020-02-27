@@ -18,6 +18,11 @@
 
        <dependency>
            <groupId>com.jdxiaokang</groupId>
+           <artifactId>commons-validation</artifactId>
+       </dependency>
+
+       <dependency>
+           <groupId>com.jdxiaokang</groupId>
            <artifactId>commons-redis</artifactId>
        </dependency>
 
@@ -77,11 +82,6 @@
        <dependency>
            <groupId>org.apache.tomcat.embed</groupId>
            <artifactId>tomcat-embed-core</artifactId>
-       </dependency>
-
-       <dependency>
-           <groupId>org.springframework.boot</groupId>
-           <artifactId>spring-boot-starter-validation</artifactId>
        </dependency>
 
        <dependency>
