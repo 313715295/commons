@@ -1,5 +1,7 @@
 package com.jdxiaokang.commons.dao.commons;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.jdxiaokang.commons.dao.utils.SpringBeanFactoryUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.transaction.annotation.Transactional;

@@ -19,6 +19,6 @@ public class SQLConstant {
     /**
      * 修改人变量名
      */
-    public static final String UPDATE_BY = "updateBy";
-    public static final String UPDATE_BY_SQL = "update_by";
+    public static final String UPDATE_BY = "modifiedBy";
+    public static final String UPDATE_BY_SQL = "modified_by";
 }
