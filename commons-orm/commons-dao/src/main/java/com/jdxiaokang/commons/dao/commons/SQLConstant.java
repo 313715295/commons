@@ -14,11 +14,11 @@ public class SQLConstant {
     /**
      * 新建人变量名
      */
-    public static final String CREATE_BY = "createBy";
-    public static final String CREATE_BY_SQL = "create_by";
+    public static  String CREATE_BY_FIELD = "createBy";
+    public static  String CREATE_BY = "create_by";
     /**
      * 修改人变量名
      */
-    public static final String UPDATE_BY = "modifiedBy";
-    public static final String UPDATE_BY_SQL = "modified_by";
+    public static  String UPDATE_BY_FIELD = "modifiedBy";
+    public static  String UPDATE_BY = "modified_by";
 }

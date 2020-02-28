@@ -22,8 +22,8 @@ public class ThreadPoolFactory {
      */
     public static ExecutorService createIdleTaskExecutor(String namePrefix) {
         //用最小的线程数处理即可，无界队列    线程空闲5分钟关闭
-        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(ThreadConfig.WEB_MIN_THREADS,
-                ThreadConfig.WEB_MIN_THREADS, 300L, TimeUnit.SECONDS, new LinkedBlockingQueue<>(), new ThreadFactory() {
+        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(ThreadConstant.WEB_MIN_THREADS,
+                ThreadConstant.WEB_MIN_THREADS, 300L, TimeUnit.SECONDS, new LinkedBlockingQueue<>(), new ThreadFactory() {
             AtomicInteger flag = new AtomicInteger(0);
             @Override
             public Thread newThread(@Nonnull Runnable runnable) {
@@ -43,8 +43,8 @@ public class ThreadPoolFactory {
         //用的tomcat的线程池模式，工作队列
         TaskQueue taskqueue = new TaskQueue();
         TaskThreadFactory tf = new TaskThreadFactory(namePrefix, false,5);
-        org.apache.tomcat.util.threads.ThreadPoolExecutor threadPoolExecutor = new org.apache.tomcat.util.threads.ThreadPoolExecutor(ThreadConfig.WEB_MIN_THREADS,
-                ThreadConfig.WEB_MAX_THREAD, 60L, TimeUnit.SECONDS, taskqueue, tf);
+        org.apache.tomcat.util.threads.ThreadPoolExecutor threadPoolExecutor = new org.apache.tomcat.util.threads.ThreadPoolExecutor(ThreadConstant.WEB_MIN_THREADS,
+                ThreadConstant.WEB_MAX_THREAD, 60L, TimeUnit.SECONDS, taskqueue, tf);
         taskqueue.setParent(threadPoolExecutor);
         return threadPoolExecutor;
     }

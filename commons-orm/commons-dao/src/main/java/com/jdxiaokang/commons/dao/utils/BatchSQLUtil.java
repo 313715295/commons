@@ -23,7 +23,7 @@ import static com.jdxiaokang.commons.dao.commons.SQLConstant.*;
 
 /**
  * @author Administrator
- * @Description 测试批量
+ * @Description 批量插入
  * @create 2019-01-09 10:33
  */
 public class BatchSQLUtil {
@@ -55,8 +55,8 @@ public class BatchSQLUtil {
             }
         }
         //需要加默认填充字段
-        base.append(CREATE_BY_SQL).append(',').append(UPDATE_BY_SQL).append(')');
-        pattern.append("#'{'list[{0}].").append(CREATE_BY).append("},#'{'list[{0}].").append(UPDATE_BY).append("})");
+        base.append(CREATE_BY).append(',').append(UPDATE_BY).append(')');
+        pattern.append("#'{'list[{0}].").append(CREATE_BY_FIELD).append("},#'{'list[{0}].").append(UPDATE_BY_FIELD).append("})");
         base.append("\n").append("VALUES").append("\n");
         MessageFormat mf = new MessageFormat(pattern.toString());
         for (int i = 0; i < list.size(); i++) {
@@ -105,9 +105,9 @@ public class BatchSQLUtil {
     }
 
 
-    private static String camelToUnderline(String param) {
-        if (param == null || "".equals(param.trim())) {
-            return "";
+    public static String camelToUnderline(String param) {
+        if (StringUtils.isBlank(param)) {
+            return EMPTY_STRING;
         }
         int len = param.length();
         StringBuilder sb = new StringBuilder(len);
@@ -122,6 +122,26 @@ public class BatchSQLUtil {
         }
         return sb.toString();
     }
+
+    public static String underLineToCamel(String param) {
+        if (StringUtils.isBlank(param)) {
+            return EMPTY_STRING;
+        }
+        String[] array = StringUtils.split(param, UNDERLINE);
+        int len = array.length;
+        if (len>1) {
+            StringBuilder builder = new StringBuilder(array[0]);
+            for (int i = 1; i <len ; i++) {
+                String s = array[i];
+                builder.append(Character.toUpperCase(s.charAt(0))).append(StringUtils.substring(s,1));
+            }
+            return builder.toString();
+        }
+        return param;
+    }
+
+
+
 
     @Data
     @Accessors(chain = true)
