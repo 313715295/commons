@@ -1,6 +1,7 @@
 package com.jdxiaokang.commons.pojo;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.List;
@@ -10,20 +11,34 @@ import java.util.List;
  * @param <T>
  */
 @Data
+@Accessors(chain = true)
 public class PageDTO<T> implements Serializable {
-    /**
-     *  记录总（分页时有用）
-     */
-    private long totalRecordSize;
 
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * 当前页
+     */
+    private Long pageNum;
+    /**
+     * 显示条数
+     */
+    private Long pageSize;
+    /**
+     * 总页数
+     */
+    private Long pages;
+
+    /**
+     * 总条数
+     */
+    private Long totalRecordSize;
+
+    /**
+     * 数据
+     */
     private List<T> records;
 
-    public PageDTO(List<T> records,long totalRecordSize){
-        this.records = records;
-        this.totalRecordSize = totalRecordSize;
-    }
 
-    public static <T> PageDTO of(List<T> object,long totalRecordSize){
-        return new PageDTO(object,totalRecordSize);
-    }
+
 }

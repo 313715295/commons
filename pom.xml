@@ -36,37 +36,37 @@
             <dependency>
                 <groupId>com.jdxiaokang</groupId>
                 <artifactId>commons-utils</artifactId>
-                <version>${version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.jdxiaokang</groupId>
                 <artifactId>commons-validation</artifactId>
-                <version>${version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.jdxiaokang</groupId>
                 <artifactId>commons-dao</artifactId>
-                <version>${version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.jdxiaokang</groupId>
                 <artifactId>commons-generator</artifactId>
-                <version>${version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.jdxiaokang</groupId>
                 <artifactId>commons-redis</artifactId>
-                <version>${version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.jdxiaokang</groupId>
                 <artifactId>commons-core</artifactId>
-                <version>${version}</version>
+                <version>${project.version}</version>
             </dependency>
 
 
@@ -380,66 +380,6 @@
     </dependencyManagement>
 
 
-
-    <repositories>
-        <repository>
-            <id>maven-public</id>
-            <url>http://maven.jdxiaokang.com/repository/maven-public/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>maven-releases</id>
-            <url>http://maven.jdxiaokang.com/repository/maven-releases/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>maven-snapshots</id>
-            <url>http://maven.jdxiaokang.com/repository/maven-snapshots/</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-
-    <distributionManagement>
-        <repository>
-            <id>maven-releases</id>
-            <name>maven release resp</name>
-            <url>http://maven.jdxiaokang.com/repository/maven-releases/</url>
-        </repository>
-        <snapshotRepository>
-            <id>maven-snapshots</id>
-            <name>maven snapshots resp</name>
-            <url>http://maven.jdxiaokang.com/repository/maven-snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>mochong-plugin</id>
-            <url>https://mvnrepository.com/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
-
     <build>
         <pluginManagement>
             <plugins>
@@ -480,10 +420,6 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-assembly-plugin</artifactId>
                     <version>3.2.0</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-maven-plugin</artifactId>
                 </plugin>
             </plugins>
         </pluginManagement>
