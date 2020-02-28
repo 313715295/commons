@@ -43,7 +43,6 @@ public class PropertiesConfig implements InitializingBean {
         ThreadConstant.WEB_MAX_THREAD = webMaxThreads;
 
         PlatformConstant.SYSTEM_COMPANY_ID = systemCompanyId;
-        PlatformConstant.SERVICE_NAME = serviceName;
 
         SQLConstant.CREATE_BY = createBy;
         SQLConstant.CREATE_BY_FIELD = BatchSQLUtil.underLineToCamel(createBy);

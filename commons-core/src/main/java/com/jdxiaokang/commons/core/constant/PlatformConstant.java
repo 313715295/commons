@@ -11,6 +11,5 @@ public class PlatformConstant {
      */
     public static long SYSTEM_COMPANY_ID;
 
-    public static  String SERVICE_NAME;
 
 }

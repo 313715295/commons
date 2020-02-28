@@ -1,5 +1,6 @@
-package com.jdxiaokang.commons.core.config;
+package com.jdxiaokang.commons.core.register;
 
+import com.jdxiaokang.commons.core.config.PropertiesConfig;
 import com.jdxiaokang.commons.core.utils.BIdGenerator;
 import com.jdxiaokang.commons.core.utils.SnowFlakeUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -25,41 +26,43 @@ import java.util.concurrent.TimeUnit;
  */
 @Component
 @Slf4j
-public class MachineConfig {
+public class MachineRegister {
 
+    private final RedisTemplate<String, Object> redisTemplate;
+
+
+    public MachineRegister(RedisTemplate<String, Object> redisTemplate, PropertiesConfig propertiesConfig) {
+        this.redisTemplate = redisTemplate;
+        this.machineIdKey ="machine:register:" + propertiesConfig.getServiceName() + ":";
+    }
     /**
      * 机器id
      */
-    public static Integer machineId = 10;
-    public static Integer count = 1;
+    public Integer machineId = 10;
+    public Integer count = 1;
     /**
      * 最大机器数64
      */
-    public static int max = 64;
-    /**
-     * 标识服务名称
-     */
-    private static String serviceName = "default_service";
+    public int max = 64;
 
-    private static final String MACHINE_ID_kEY = "machine:register:"+serviceName+":";
+    /**
+     * 机器码注册的key
+     */
+    private String machineIdKey;
     /**
      * 本地ip地址
      */
-    private static String localIp;
-    private static TimeUnit timeUnit = TimeUnit.DAYS;
+    private String localIp;
+    private TimeUnit timeUnit = TimeUnit.DAYS;
     /**
      * 是否已经开启定时线程
      */
-    private static boolean hasTimer = false;
-
-    private final RedisTemplate<String,Object> redisTemplate;
+    private boolean hasTimer = false;
 
 
-    public MachineConfig(RedisTemplate<String, Object> redisTemplate) {
-        this.redisTemplate = redisTemplate;
-    }
     /**
      * 获取ip地址
+     *
      * @throws UnknownHostException
      */
     private String getIPAddress() throws UnknownHostException {
@@ -75,7 +78,7 @@ public class MachineConfig {
         localIp = getIPAddress();
         long ip_ = Long.parseLong(localIp.replaceAll("\\.", ""));
         //这里取64,为后续机器Ip调整做准备。
-        machineId = Long.hashCode(ip_) & (max-1);
+        machineId = Long.hashCode(ip_) & (max - 1);
         //创建一个机器ID
         createMachineId();
         log.info("初始化 machine_id :{}", machineId);
@@ -88,7 +91,7 @@ public class MachineConfig {
      */
     @PreDestroy
     public void destroyMachineId() {
-        redisTemplate.delete(MACHINE_ID_kEY + machineId);
+        redisTemplate.delete(machineIdKey + machineId);
     }
 
 
@@ -124,8 +127,8 @@ public class MachineConfig {
                 log.warn("64个机器码已注册满");
                 return machineId;
             }
-            machineId+=1;
-            count+=1;
+            machineId += 1;
+            count += 1;
             //出问题的时候出口，不会无限递归
             if (machineId >= max) {
                 return machineId;
@@ -134,7 +137,7 @@ public class MachineConfig {
             createMachineId();
             //有异常 不处理，用同一个id
         } catch (Exception e) {
-            log.error("",e);
+            log.error("", e);
         }
         return machineId;
     }
@@ -145,7 +148,7 @@ public class MachineConfig {
     @Nonnull
     private Boolean checkIfCanRegister() {
         //判断64个号码区间段的机器IP是否被占满
-        Set<String> keys =  redisTemplate.keys(MACHINE_ID_kEY + "[0-9]{0,2}");
+        Set<String> keys = redisTemplate.keys(machineIdKey + "[0-9]{0,2}");
         if (keys == null) {
             return true;
         }
@@ -159,7 +162,7 @@ public class MachineConfig {
     private void updateExpTimeThread() {
         if (!hasTimer) {
             hasTimer = true;
-           Timer timer =  new Timer(localIp);
+            Timer timer = new Timer(localIp);
             //开启一个线程执行定时任务:
             //1.每23小时更新一次超时时间
             timer.schedule(new TimerTask() {
@@ -170,7 +173,7 @@ public class MachineConfig {
                     Boolean b = checkIsLocalIp(String.valueOf(machineId));
                     if (b) {
                         log.info("更新超时时间 ip:{},machineId:{}, time:{}", localIp, machineId, now);
-                        redisTemplate.expire(MACHINE_ID_kEY + machineId, 1, timeUnit);
+                        redisTemplate.expire(machineIdKey + machineId, 1, timeUnit);
                     } else {
                         log.info("重新生成机器ID ip:{},machineId:{}, time:{}", localIp, machineId, now);
                         //重新生成机器ID，并且更改雪花中的机器ID
@@ -186,17 +189,15 @@ public class MachineConfig {
     }
 
 
-
-
     /**
      * @param machineId 机器id
      */
     private Boolean checkIsLocalIp(String machineId) {
-        try{
-            String ip = (String) redisTemplate.opsForValue().get(MACHINE_ID_kEY + machineId);
+        try {
+            String ip = (String) redisTemplate.opsForValue().get(machineIdKey + machineId);
             log.info("checkIsLocalIp->ip:{}", ip);
             return localIp.equals(ip);
-        }catch (Exception e){
+        } catch (Exception e) {
             return Boolean.FALSE;
         }
 
@@ -205,10 +206,11 @@ public class MachineConfig {
     /**
      * 1.注册机器
      * 2.设置超时时间
+     *
      * @param machineId 取值为0~63
      */
     private Boolean registerMachine(Integer machineId) throws Exception {
-       return redisTemplate.opsForValue().setIfAbsent(MACHINE_ID_kEY + machineId, localIp, 1, timeUnit);
+        return redisTemplate.opsForValue().setIfAbsent(machineIdKey + machineId, localIp, 1, timeUnit);
     }
 
 }
