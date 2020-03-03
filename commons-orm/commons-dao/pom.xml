@@ -7,6 +7,7 @@
         <artifactId>commons-orm</artifactId>
         <version>1.0.1-SNAPSHOT</version>
     </parent>
+    <version>1.0.1-SNAPSHOT</version>
     <artifactId>commons-dao</artifactId>
     <name>commons-dao</name>
 

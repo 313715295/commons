@@ -22,6 +22,7 @@
     </modules>
 
     <properties>
+        <commons.version>1.0.1-SNAPSHOT</commons.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
@@ -35,37 +36,37 @@
             <dependency>
                 <groupId>com.jdxiaokang</groupId>
                 <artifactId>commons-utils</artifactId>
-                <version>${project.version}</version>
+                <version>${commons.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.jdxiaokang</groupId>
                 <artifactId>commons-validation</artifactId>
-                <version>${project.version}</version>
+                <version>${commons.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.jdxiaokang</groupId>
                 <artifactId>commons-dao</artifactId>
-                <version>${project.version}</version>
+                <version>${commons.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.jdxiaokang</groupId>
                 <artifactId>commons-generator</artifactId>
-                <version>${project.version}</version>
+                <version>${commons.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.jdxiaokang</groupId>
                 <artifactId>commons-redis</artifactId>
-                <version>${project.version}</version>
+                <version>${commons.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.jdxiaokang</groupId>
                 <artifactId>commons-core</artifactId>
-                <version>${project.version}</version>
+                <version>${commons.version}</version>
             </dependency>
 
 
