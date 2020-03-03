@@ -31,9 +31,9 @@ public class PropertiesConfig implements InitializingBean {
     @Value("${service.name:default_service}")
     private String serviceName;
 
-    @Value("${sql.field:createBy:create_by}")
+    @Value("${sql.field.createBy:create_by}")
     private String createBy;
-    @Value("${sql.field:updateBy:modified_by}")
+    @Value("${sql.field.updateBy:modified_by}")
     private String updateBy;
 
 

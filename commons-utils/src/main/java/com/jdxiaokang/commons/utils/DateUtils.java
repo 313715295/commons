@@ -37,6 +37,8 @@ public class DateUtils {
      */
     public static final DateTimeFormatter LOCAL_DATE_PATTERN = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
+    public static final DateTimeFormatter DAY_PATTERN = DateTimeFormatter.ofPattern("yyyyMMdd");
+
     /**
      * 获取当天开始 00：00：00
      * @param localDateTime  时间
@@ -93,6 +95,12 @@ public class DateUtils {
         return Optional.ofNullable(localDateTime).map(time-> time.format(formatter)).orElse(null);
     }
 
+    /**
+     * LocalDateTime转时间字符串
+     */
+    public static String localDateTimeToString() {
+        return Optional.of(LocalDateTime.now()).map(time-> time.format(DAY_PATTERN)).orElse(null);
+    }
     /**
      *  转换时间
      */

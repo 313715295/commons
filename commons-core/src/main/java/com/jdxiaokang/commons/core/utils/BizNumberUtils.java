@@ -35,7 +35,8 @@ public class BizNumberUtils {
 
 
     /**
-     * 我方两个数据相乘，采用进1处理,保留四位小数
+     * 我方两个数据相乘，采用正数进,负数舍,保留四位小数
+     *
      */
     public static BigDecimal ourMultiply(@Nonnull BigDecimal a, @Nonnull BigDecimal b) {
         Objects.requireNonNull(a);
@@ -43,6 +44,31 @@ public class BizNumberUtils {
         return a.multiply(b).setScale(4, BigDecimal.ROUND_CEILING);
     }
 
+    /**
+     * 四舍五入 保留四位小数
+     */
+    public static BigDecimal halfUpMultiply(@Nonnull BigDecimal a, @Nonnull BigDecimal b) {
+        return halfUpMultiply(a, b, 4);
+    }
+    /**
+     * 四舍五入
+     */
+    public static BigDecimal halfUpMultiply(@Nonnull BigDecimal a, @Nonnull BigDecimal b,int newScale) {
+        Objects.requireNonNull(a);
+        Objects.requireNonNull(b);
+        return a.multiply(b).setScale(newScale, BigDecimal.ROUND_HALF_UP);
+    }
+
+    /**
+     * 四舍五入 保留四位小数
+     * @param value 被除数
+     * @param divisor 除数
+     */
+    public static BigDecimal halfUpDivide(@Nonnull BigDecimal value, @Nonnull BigDecimal divisor) {
+        Objects.requireNonNull(value);
+        Objects.requireNonNull(divisor);
+        return value.divide(divisor,4,BigDecimal.ROUND_HALF_UP);
+    }
 
 
     /**
@@ -87,6 +113,12 @@ public class BizNumberUtils {
      */
     public static long createId() {
         return SnowFlakeUtil.nextId();
+    }
+    /**
+     * 生成long类型的id  雪花算法
+     */
+    public static String createApplyId() {
+        return String.valueOf(createId());
     }
     /**
      * 根据业务code和当前时间戳生成业务id  差不多单线程一秒150万个
