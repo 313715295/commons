@@ -57,7 +57,7 @@ public class AsyncUtils {
      * @param voidAction            执行逻辑
      */
     public static  void idleTask(@Nonnull VoidAction voidAction) {
-        ThreadPoolSingleton.IDLE_TASK_EXECUTOR.getExecutor().submit(voidAction::action);
+       idleTask(voidAction,"");
     }
     /**
      * 处理空闲任务，最终一致性，以后会丢消息队列处理

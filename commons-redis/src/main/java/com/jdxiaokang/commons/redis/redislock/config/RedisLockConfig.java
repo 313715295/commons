@@ -46,7 +46,7 @@ public class RedisLockConfig {
 
     @Bean
     public RedisLockRegistry redisLockRegistry(RedissonClient redissonClient) {
-        redisLockRegistry =  new RedisLockRegistry(redissonClient, "zwq:test");
+        redisLockRegistry =  new RedisLockRegistry(redissonClient, "lock:test");
         return redisLockRegistry;
     }
 
