@@ -68,9 +68,11 @@ public class CatchUtils {
 
     /**
      * 捕获任务的异常,并抛出API异常
+     * 统一挪到dubbo全局拦截器 {@link com.jdxiaokang.commons.core.dubbo.ValidatorFilter}
      *
      * @param voidAction 执行逻辑
      */
+    @Deprecated
     public static void throwAPIException(VoidAction voidAction, String errorMsg) throws APIServiceException {
         try {
             voidAction.action();
@@ -88,9 +90,12 @@ public class CatchUtils {
 
     /**
      * 捕获任务的异常,并抛出API异常
+     * 统一挪到dubbo全局拦截器 {@link com.jdxiaokang.commons.core.dubbo.ValidatorFilter}
      *
      * @param supplier 执行逻辑 并返回结果
+     *
      */
+    @Deprecated
     public static<T> T throwAPIException(Supplier<T> supplier, String errorMsg) throws APIServiceException {
         try {
             return supplier.get();

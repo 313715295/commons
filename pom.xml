@@ -36,37 +36,37 @@
             <dependency>
                 <groupId>com.jdxiaokang</groupId>
                 <artifactId>commons-utils</artifactId>
-                <version>${commons.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.jdxiaokang</groupId>
                 <artifactId>commons-validation</artifactId>
-                <version>${commons.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.jdxiaokang</groupId>
                 <artifactId>commons-dao</artifactId>
-                <version>${commons.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.jdxiaokang</groupId>
                 <artifactId>commons-generator</artifactId>
-                <version>${commons.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.jdxiaokang</groupId>
                 <artifactId>commons-redis</artifactId>
-                <version>${commons.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.jdxiaokang</groupId>
                 <artifactId>commons-core</artifactId>
-                <version>${commons.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
 
@@ -383,11 +383,7 @@
                 <version>1.7</version>
             </dependency>
 
-            <dependency>
-                <groupId>com.xuxueli</groupId>
-                <artifactId>xxl-job-core</artifactId>
-                <version>2.1.2</version>
-            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
