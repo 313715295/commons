@@ -34,7 +34,7 @@ public class ResponseDTO<T> implements Serializable {
     /**
      * 状态(true:成功,false:失败)
      */
-    private boolean status = false;
+    private boolean success = false;
 
     /**
      * 错误提示
@@ -127,7 +127,7 @@ public class ResponseDTO<T> implements Serializable {
 
     @SuppressWarnings("unchecked")
     public ResponseDTO<T> succeed(int responseCode, String message, T entry) {
-        this.status = true;
+        this.success = true;
         this.responseCode = responseCode;
         this.message = message;
         this.entry = Optional.ofNullable(entry).orElse((T)new HashMap<>());
@@ -148,7 +148,7 @@ public class ResponseDTO<T> implements Serializable {
     }
 
     public ResponseDTO<T> fail(int responseCode, String errorMsg, String exception) {
-        this.status = false;
+        this.success = false;
         this.responseCode = responseCode;
         this.message = errorMsg;
         this.exception = exception;

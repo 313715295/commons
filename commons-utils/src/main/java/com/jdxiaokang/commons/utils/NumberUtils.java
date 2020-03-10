@@ -31,6 +31,19 @@ public class NumberUtils {
     }
 
     /**
+     * 小于零
+     */
+    public static boolean ltZero(BigDecimal bigDecimal) {
+        return Optional.ofNullable(bigDecimal).map(value -> value.compareTo(BigDecimal.ZERO) < 0).orElse(Boolean.FALSE);
+    }
+    /**
+     * 小于等于零
+     */
+    public static boolean leZero(BigDecimal bigDecimal) {
+        return Optional.ofNullable(bigDecimal).map(value -> value.compareTo(BigDecimal.ZERO) <= 0).orElse(Boolean.FALSE);
+    }
+
+    /**
      * 判断传入的数据不为0
      * @param bigDecimal 数据
      */

@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.common.extension.Activate;
 import org.apache.dubbo.common.utils.ConfigUtils;
 import org.apache.dubbo.rpc.*;
+import org.apache.dubbo.rpc.support.RpcUtils;
 import org.apache.dubbo.validation.Validation;
 import org.apache.dubbo.validation.Validator;
 
@@ -46,6 +47,7 @@ public class ValidatorFilter implements Filter {
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
         RpcInvocation rpcInvocation = (RpcInvocation) invocation;
+        Class<?> methodReturnType = RpcUtils.getReturnType(invocation);
         if (validation != null && !invocation.getMethodName().startsWith("$")
                 && ConfigUtils.isNotEmpty(invoker.getUrl().getMethodParameter(invocation.getMethodName(), VALIDATION_KEY))) {
             try {
@@ -57,7 +59,7 @@ public class ValidatorFilter implements Filter {
                 throw e;
             } catch (ConstraintViolationException exception) {
                 String errorMsg = ValidateUtils.buildErrorMsg(exception.getConstraintViolations());
-                if (rpcInvocation.getReturnType().equals(returnType)) {
+                if (returnType.equals(methodReturnType)) {
                     return AsyncRpcResult
                             .newDefaultAsyncResult(new ResponseDTO<>()
                                     .fail(errorMsg), invocation);
@@ -69,7 +71,7 @@ public class ValidatorFilter implements Filter {
         }
         Result result = invoker.invoke(invocation);
         if (result.hasException()) {
-            if (rpcInvocation.getReturnType().equals(returnType)) {
+            if (returnType.equals(methodReturnType)) {
                 ResponseDTO<?> responseDTO;
                 String methodName = invocation.getMethodName();
                 Throwable throwable = result.getException();
