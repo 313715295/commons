@@ -6,8 +6,6 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Optional;
 
 import static com.jdxiaokang.commons.exceptions.BaseErrorCodeEnum.DEFAULT_SUCCESS;
 import static com.jdxiaokang.commons.exceptions.BaseErrorCodeEnum.SYSTEM_ERROR;
@@ -125,12 +123,11 @@ public class ResponseDTO<T> implements Serializable {
         return succeed(responseCode, message,null);
     }
 
-    @SuppressWarnings("unchecked")
     public ResponseDTO<T> succeed(int responseCode, String message, T entry) {
         this.success = true;
         this.responseCode = responseCode;
         this.message = message;
-        this.entry = Optional.ofNullable(entry).orElse((T)new HashMap<>());
+        this.entry = entry;
         return this;
     }
 
