@@ -90,6 +90,14 @@ public class AsyncUtils {
      * @param task            任务
      * @return 结果Future
      */
+    public static  Future<?> asyncTask(@Nonnull Runnable task) {
+        return DEFAULT_EXECUTOR.submit(task);
+    }
+    /**
+     * 异步任务
+     * @param task            任务
+     * @return 结果Future
+     */
     public static  <E> Future<E> asyncTask(@Nonnull Callable<E> task) {
         return DEFAULT_EXECUTOR.submit(task);
     }

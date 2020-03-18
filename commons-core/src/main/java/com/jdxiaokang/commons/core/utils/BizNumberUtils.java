@@ -45,6 +45,14 @@ public class BizNumberUtils {
     }
 
     /**
+     * 他方两个数据相乘，采用正数舍,负数进,保留四位小数
+     */
+    public static BigDecimal otherMultiply(@Nonnull BigDecimal a, @Nonnull BigDecimal b) {
+        Objects.requireNonNull(a);
+        Objects.requireNonNull(b);
+        return a.multiply(b).setScale(4, BigDecimal.ROUND_FLOOR);
+    }
+    /**
      * 四舍五入 保留四位小数
      */
     public static BigDecimal halfUpMultiply(@Nonnull BigDecimal a, @Nonnull BigDecimal b) {

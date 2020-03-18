@@ -29,6 +29,11 @@ public class PageVO<T> {
     @ApiModelProperty(value = "记录数据")
     private List<T> records;
 
+    @ApiModelProperty(value = "当前页",example = "1")
+    private Long pageNum;
+    @ApiModelProperty(value = "是否还有下一页")
+    private Boolean hasNextPage;
+
 
     public PageVO() {
     }
@@ -38,6 +43,8 @@ public class PageVO<T> {
             this.pages = pageData.getPages();
             this.totalRecordSize = pageData.getTotal();
             this.currentPage = pageData.getCurrent();
+            this.pageNum = pageData.getCurrent();
+            this.hasNextPage = this.currentPage < this.pages;
         });
     }
 
