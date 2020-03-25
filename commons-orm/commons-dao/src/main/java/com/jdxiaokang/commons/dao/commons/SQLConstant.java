@@ -21,4 +21,9 @@ public class SQLConstant {
      */
     public static  String UPDATE_BY_FIELD = "modifiedBy";
     public static  String UPDATE_BY = "modified_by";
+
+    /**
+     * 悲观锁加锁
+     */
+    public static final String LOCK = " for update ";
 }

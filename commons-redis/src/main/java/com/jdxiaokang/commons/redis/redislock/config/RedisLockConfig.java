@@ -51,9 +51,9 @@ public class RedisLockConfig {
     }
 
 
-    @Scheduled(cron = "0 0 0/1 * * ? ")
+    @Scheduled(cron = "0 5 0 * * ? ")
     public void cle() {
-        redisLockRegistry.expireUnusedOlderThan(1000 * 60 * 60);
+        redisLockRegistry.expireUnusedOlderThan(1000 * 60 * 60 * 24);
     }
 
 
