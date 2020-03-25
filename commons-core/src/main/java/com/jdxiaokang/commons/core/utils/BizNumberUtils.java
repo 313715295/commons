@@ -35,13 +35,13 @@ public class BizNumberUtils {
 
 
     /**
-     * 我方两个数据相乘，采用正数进,负数舍,保留四位小数
+     * 我方两个数据相乘，采用正数进,负数舍,保留2位小数
      *
      */
     public static BigDecimal ourMultiply(@Nonnull BigDecimal a, @Nonnull BigDecimal b) {
         Objects.requireNonNull(a);
         Objects.requireNonNull(b);
-        return a.multiply(b).setScale(4, BigDecimal.ROUND_CEILING);
+        return a.multiply(b).setScale(2, BigDecimal.ROUND_CEILING);
     }
 
     /**
@@ -50,13 +50,13 @@ public class BizNumberUtils {
     public static BigDecimal otherMultiply(@Nonnull BigDecimal a, @Nonnull BigDecimal b) {
         Objects.requireNonNull(a);
         Objects.requireNonNull(b);
-        return a.multiply(b).setScale(4, BigDecimal.ROUND_FLOOR);
+        return a.multiply(b).setScale(2, BigDecimal.ROUND_FLOOR);
     }
     /**
      * 四舍五入 保留四位小数
      */
     public static BigDecimal halfUpMultiply(@Nonnull BigDecimal a, @Nonnull BigDecimal b) {
-        return halfUpMultiply(a, b, 4);
+        return halfUpMultiply(a, b, 2);
     }
     /**
      * 四舍五入
@@ -75,7 +75,7 @@ public class BizNumberUtils {
     public static BigDecimal halfUpDivide(@Nonnull BigDecimal value, @Nonnull BigDecimal divisor) {
         Objects.requireNonNull(value);
         Objects.requireNonNull(divisor);
-        return value.divide(divisor,4,BigDecimal.ROUND_HALF_UP);
+        return value.divide(divisor,2,BigDecimal.ROUND_HALF_UP);
     }
 
 
