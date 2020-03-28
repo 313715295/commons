@@ -2,6 +2,7 @@ package com.jdxiaokang.commons.dao.commons;
 
 import com.jdxiaokang.commons.dao.utils.BatchSQLUtil;
 import org.apache.ibatis.annotations.InsertProvider;
+import org.apache.ibatis.annotations.Options;
 
 import java.util.List;
 
@@ -19,5 +20,6 @@ public interface IBatchMapper<T> {
      * @return 行数
      */
     @InsertProvider(type = BatchSQLUtil.class, method = "batchInsert")
+    @Options(useGeneratedKeys = true,keyProperty = "list.id",keyColumn = "id")
     int insertBatch(List<T> list);
 }
