@@ -32,7 +32,19 @@ public class BizNumberUtils {
     private static final int MINUTE_OF_TIME = 100000;
     private static final int SECOND_OF_TIME = 1000;
 
-
+    /**
+     * 四舍五入 保留两位数
+     */
+    public static BigDecimal halfUp(BigDecimal number) {
+        return Optional.ofNullable(number).map(n->n.setScale(2, BigDecimal.ROUND_HALF_UP)).orElse(BigDecimal.ZERO);
+    }
+    /**
+     * 四舍五入
+     * @param scale 小数位
+     */
+    public static BigDecimal halfUp(BigDecimal number, int scale) {
+        return Optional.ofNullable(number).map(n->n.setScale(scale, BigDecimal.ROUND_HALF_UP)).orElse(BigDecimal.ZERO);
+    }
 
     /**
      * 我方两个数据相乘，采用正数进,负数舍,保留2位小数
@@ -45,7 +57,7 @@ public class BizNumberUtils {
     }
 
     /**
-     * 他方两个数据相乘，采用正数舍,负数进,保留四位小数
+     * 他方两个数据相乘，采用正数舍,负数进,保留2位小数
      */
     public static BigDecimal otherMultiply(@Nonnull BigDecimal a, @Nonnull BigDecimal b) {
         Objects.requireNonNull(a);
@@ -53,7 +65,7 @@ public class BizNumberUtils {
         return a.multiply(b).setScale(2, BigDecimal.ROUND_FLOOR);
     }
     /**
-     * 四舍五入 保留四位小数
+     * 四舍五入 保留2位小数
      */
     public static BigDecimal halfUpMultiply(@Nonnull BigDecimal a, @Nonnull BigDecimal b) {
         return halfUpMultiply(a, b, 2);
@@ -68,7 +80,7 @@ public class BizNumberUtils {
     }
 
     /**
-     * 四舍五入 保留四位小数
+     * 四舍五入 保留2位小数
      * @param value 被除数
      * @param divisor 除数
      */

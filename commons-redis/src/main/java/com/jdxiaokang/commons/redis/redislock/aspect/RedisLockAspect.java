@@ -13,6 +13,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.locks.Lock;
@@ -26,6 +27,7 @@ import java.util.concurrent.locks.Lock;
 @Aspect
 @Component
 @Slf4j
+@Order(-1)
 public class RedisLockAspect {
 
     @Autowired
