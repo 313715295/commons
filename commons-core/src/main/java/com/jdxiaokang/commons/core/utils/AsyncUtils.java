@@ -1,17 +1,18 @@
 package com.jdxiaokang.commons.core.utils;
 
+import com.google.common.collect.Lists;
 import com.jdxiaokang.commons.core.pool.ThreadPoolSingleton;
 import com.jdxiaokang.commons.exceptions.ServiceException;
 import com.jdxiaokang.commons.support.LogAction;
 import com.jdxiaokang.commons.support.VoidAction;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
+import java.util.stream.Collectors;
 
 import static com.jdxiaokang.commons.utils.ThrowableUtils.getCallErrorLogWithCall;
 
@@ -85,6 +86,47 @@ public class AsyncUtils {
     public static  void idleTask(@Nonnull VoidAction voidAction, String taskName) {
         ThreadPoolSingleton.IDLE_TASK_EXECUTOR.getExecutor().submit(() -> catchAsyncException(voidAction, taskName));
     }
+
+    /**
+     *  批量异步任务
+     * @param tasks            任务列表
+     * @return 结果Future
+     */
+    public static  List<Future<?>> asyncBatchRun(@Nonnull List<Runnable> tasks) {
+        if (CollectionUtils.isEmpty(tasks)) {
+            throw new RuntimeException("任务列表不能为空");
+        }
+        int size = tasks.size();
+        List<Future<?>> futureList = Lists.newArrayListWithExpectedSize(size);
+        FutureTask<?> lastTask = new FutureTask<>(tasks.get(size - 1),null);
+        if (tasks.size() > 1) {
+            tasks.remove(size-1);
+            futureList = tasks.stream().map(AsyncUtils::asyncTask).collect(Collectors.toList());
+        }
+        lastTask.run();
+        futureList.add(lastTask);
+        return futureList;
+    }
+    /**
+     *  批量异步任务
+     * @param tasks            任务列表
+     * @return 结果Future
+     */
+    public static <E> List<Future<E>> asyncBatchTask(@Nonnull List<Callable<E>> tasks) {
+        if (CollectionUtils.isEmpty(tasks)) {
+            throw new RuntimeException("任务列表不能为空");
+        }
+        int size = tasks.size();
+        List<Future<E>> futureList = Lists.newArrayListWithExpectedSize(size);
+        FutureTask<E> lastTask = new FutureTask<>(tasks.get(size - 1));
+        if (tasks.size() > 1) {
+            tasks.remove(size-1);
+            futureList = tasks.stream().map(AsyncUtils::asyncTask).collect(Collectors.toList());
+        }
+        lastTask.run();
+        futureList.add(lastTask);
+        return futureList;
+    }
     /**
      * 异步任务
      * @param task            任务
@@ -93,6 +135,9 @@ public class AsyncUtils {
     public static  Future<?> asyncTask(@Nonnull Runnable task) {
         return DEFAULT_EXECUTOR.submit(task);
     }
+
+
+
     /**
      * 异步任务
      * @param task            任务

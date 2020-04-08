@@ -15,6 +15,8 @@ import org.apache.dubbo.validation.Validator;
 
 import javax.validation.ConstraintViolationException;
 
+import java.util.Arrays;
+
 import static org.apache.dubbo.common.constants.CommonConstants.CONSUMER;
 import static org.apache.dubbo.common.constants.CommonConstants.PROVIDER;
 import static org.apache.dubbo.common.constants.FilterConstants.VALIDATION_KEY;
@@ -47,6 +49,8 @@ public class ValidatorFilter implements Filter {
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
         RpcInvocation rpcInvocation = (RpcInvocation) invocation;
+        String arguments = Arrays.toString(invocation.getArguments());
+        String methodName = invocation.getMethodName();
         Class<?> methodReturnType = RpcUtils.getReturnType(invocation);
         if (validation != null && !invocation.getMethodName().startsWith("$")
                 && ConfigUtils.isNotEmpty(invoker.getUrl().getMethodParameter(invocation.getMethodName(), VALIDATION_KEY))) {
@@ -56,9 +60,11 @@ public class ValidatorFilter implements Filter {
                     validator.validate(invocation.getMethodName(), invocation.getParameterTypes(), invocation.getArguments());
                 }
             } catch (RpcException e) {
+                log.info("方法=[{}] 参数=[{}] 发生异常:",methodName,arguments,e);
                 throw e;
             } catch (ConstraintViolationException exception) {
                 String errorMsg = ValidateUtils.buildErrorMsg(exception.getConstraintViolations());
+                log.info("方法=[{}] 参数=[{}] 发生异常:[{}]",methodName,arguments,errorMsg);
                 if (returnType.equals(methodReturnType)) {
                     return AsyncRpcResult
                             .newDefaultAsyncResult(new ResponseDTO<>()
@@ -66,23 +72,25 @@ public class ValidatorFilter implements Filter {
                 }
                 return AsyncRpcResult.newDefaultAsyncResult(new APIServiceException(errorMsg), invocation);
             } catch (Throwable t) {
+                log.info("方法=[{}] 参数=[{}] 发生异常:",methodName,arguments,t);
                 return AsyncRpcResult.newDefaultAsyncResult(t, invocation);
             }
         }
         Result result = invoker.invoke(invocation);
         if (result.hasException()) {
+            ResponseDTO<?> responseDTO;
+            Throwable throwable = result.getException();
+            if (throwable instanceof ServiceException) {
+                ServiceException exception = (ServiceException) throwable;
+                responseDTO = ResponseDTO.failure((exception.getErrorCode()), exception.getMessage());
+                log.info("方法=[{}] 参数=[{}] 发生异常:[{}]", methodName, Arrays.toString(rpcInvocation.getArguments()),
+                        exception.getMessage());
+            } else {
+                responseDTO = ResponseDTO.failure(BaseErrorCodeEnum.SYSTEM_ERROR);
+                log.info("方法=[{}] 参数=[{}] 发生异常:", methodName,Arrays.toString(rpcInvocation.getArguments()),
+                        throwable);
+            }
             if (returnType.equals(methodReturnType)) {
-                ResponseDTO<?> responseDTO;
-                String methodName = invocation.getMethodName();
-                Throwable throwable = result.getException();
-                if (throwable instanceof ServiceException) {
-                    ServiceException exception = (ServiceException) throwable;
-                    responseDTO = ResponseDTO.failure((exception.getErrorCode()), exception.getMessage());
-                    log.info("方法=[{}] 发生异常:[{}]", methodName, exception.getMessage());
-                } else {
-                    responseDTO = ResponseDTO.failure(BaseErrorCodeEnum.SYSTEM_ERROR);
-                    log.info("方法=[{}] 发生异常:", methodName, throwable);
-                }
                 return AsyncRpcResult.newDefaultAsyncResult(responseDTO, invocation);
             }
         }
