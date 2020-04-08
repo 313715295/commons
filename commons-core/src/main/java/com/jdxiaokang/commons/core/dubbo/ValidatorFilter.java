@@ -60,11 +60,11 @@ public class ValidatorFilter implements Filter {
                     validator.validate(invocation.getMethodName(), invocation.getParameterTypes(), invocation.getArguments());
                 }
             } catch (RpcException e) {
-                log.info("方法=[{}] 参数=[{}] 发生异常:",methodName,arguments,e);
+                log.info("方法=[{}] 参数={} 发生异常:",methodName,arguments,e);
                 throw e;
             } catch (ConstraintViolationException exception) {
                 String errorMsg = ValidateUtils.buildErrorMsg(exception.getConstraintViolations());
-                log.info("方法=[{}] 参数=[{}] 发生异常:[{}]",methodName,arguments,errorMsg);
+                log.info("方法=[{}] 参数={} 发生异常:[{}]",methodName,arguments,errorMsg);
                 if (returnType.equals(methodReturnType)) {
                     return AsyncRpcResult
                             .newDefaultAsyncResult(new ResponseDTO<>()
@@ -72,7 +72,7 @@ public class ValidatorFilter implements Filter {
                 }
                 return AsyncRpcResult.newDefaultAsyncResult(new APIServiceException(errorMsg), invocation);
             } catch (Throwable t) {
-                log.info("方法=[{}] 参数=[{}] 发生异常:",methodName,arguments,t);
+                log.info("方法=[{}] 参数={} 发生异常:",methodName,arguments,t);
                 return AsyncRpcResult.newDefaultAsyncResult(t, invocation);
             }
         }
@@ -83,11 +83,11 @@ public class ValidatorFilter implements Filter {
             if (throwable instanceof ServiceException) {
                 ServiceException exception = (ServiceException) throwable;
                 responseDTO = ResponseDTO.failure((exception.getErrorCode()), exception.getMessage());
-                log.info("方法=[{}] 参数=[{}] 发生异常:[{}]", methodName, Arrays.toString(rpcInvocation.getArguments()),
+                log.info("方法=[{}] 参数={} 发生异常:[{}]", methodName, Arrays.toString(rpcInvocation.getArguments()),
                         exception.getMessage());
             } else {
                 responseDTO = ResponseDTO.failure(BaseErrorCodeEnum.SYSTEM_ERROR);
-                log.info("方法=[{}] 参数=[{}] 发生异常:", methodName,Arrays.toString(rpcInvocation.getArguments()),
+                log.info("方法=[{}] 参数={} 发生异常:", methodName,Arrays.toString(rpcInvocation.getArguments()),
                         throwable);
             }
             if (returnType.equals(methodReturnType)) {
