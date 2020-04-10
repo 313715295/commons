@@ -32,6 +32,9 @@ public class PageVO<T> {
     @ApiModelProperty(value = "当前页",example = "1")
     private Long pageNum;
 
+    @ApiModelProperty(value = "显示条数",example = "1")
+    private Long pageSize;
+
     @ApiModelProperty(value = "是否还有下一页")
     private Boolean hasNextPage;
 
@@ -45,7 +48,19 @@ public class PageVO<T> {
             this.totalRecordSize = pageData.getTotal();
             this.currentPage = pageData.getCurrent();
             this.pageNum = pageData.getCurrent();
+            this.pageSize = pageData.getSize();
             this.hasNextPage = this.currentPage < this.pages;
+        });
+    }
+
+    public PageVO(PageDTO<?> pageDTO) {
+        Optional.ofNullable(pageDTO).ifPresent(pageData->{
+            this.pages = pageData.getPages();
+            this.totalRecordSize = pageData.getTotalRecordSize();
+            this.currentPage = pageData.getCurrentPage();
+            this.pageNum = pageData.getPageNum();
+            this.pageSize = pageData.getPageSize();
+            this.hasNextPage = pageData.getHasNextPage();
         });
     }
 

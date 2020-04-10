@@ -60,6 +60,7 @@ public class PageDTO<T> implements Serializable {
             this.totalRecordSize = pageData.getTotal();
             this.currentPage = pageData.getCurrent();
             this.pageNum = pageData.getCurrent();
+            this.pageSize = pageData.getSize();
             this.hasNextPage = this.currentPage < this.pages;
         });
     }
