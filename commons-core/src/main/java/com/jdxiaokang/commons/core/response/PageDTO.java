@@ -1,45 +1,60 @@
 package com.jdxiaokang.commons.core.response;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
 /**
- * @author Administrator
+ * 分页对象
+ * @param <T>
  */
 @Data
 @Accessors(chain = true)
-@ApiModel("分页列表信息")
-public class PageVO<T> {
+public class PageDTO<T> implements Serializable {
 
-    @ApiModelProperty(value = "总页数",example = "2")
-    private Long pages;
+    private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "总条数",example = "30")
-    private Long totalRecordSize;
-
-    @ApiModelProperty(value = "当前页数",example = "1")
-    private Long currentPage;
-
-    @ApiModelProperty(value = "记录数据")
-    private List<T> records;
-
-    @ApiModelProperty(value = "当前页",example = "1")
+    /**
+     * 当前页
+     */
     private Long pageNum;
 
-    @ApiModelProperty(value = "是否还有下一页")
+    /**
+     * 当前页
+     */
+    private Long currentPage;
+    /**
+     * 显示条数
+     */
+    private Long pageSize;
+    /**
+     * 总页数
+     */
+    private Long pages;
+
+    /**
+     * 总条数
+     */
+    private Long totalRecordSize;
+    /**
+     * 数据
+     */
+    private List<T> records;
+
+    /**
+     * 是否还有下页
+     */
     private Boolean hasNextPage;
 
 
-    public PageVO() {
+    public PageDTO() {
     }
 
-    public PageVO(IPage<?> page) {
+    public PageDTO(IPage<?> page) {
         Optional.ofNullable(page).ifPresent(pageData->{
             this.pages = pageData.getPages();
             this.totalRecordSize = pageData.getTotal();
@@ -48,5 +63,6 @@ public class PageVO<T> {
             this.hasNextPage = this.currentPage < this.pages;
         });
     }
+
 
 }
