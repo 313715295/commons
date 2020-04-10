@@ -1,25 +1,19 @@
 package com.jdxiaokang.commons.pojo;
 
 import lombok.Data;
-import lombok.ToString;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 
 @Data
-@ToString
+@Accessors(chain = true)
 public class PageParam implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private Integer pageNum;
 
-    private Integer pageNo;
-
     private Integer pageSize;
-
-    public void setPageNum(Integer pageNum){
-        this.pageNo = pageNum;
-    }
 
     /**
      * 排序字段
