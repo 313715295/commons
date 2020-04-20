@@ -47,6 +47,12 @@ public class BizNumberUtils {
     }
 
     /**
+     * 正数舍,负数进,保留2位小数
+     */
+    public static BigDecimal roundFloor(BigDecimal number) {
+        return Optional.ofNullable(number).map(n -> n.setScale(2, BigDecimal.ROUND_FLOOR)).orElse(BigDecimal.ZERO);
+    }
+    /**
      * 我方两个数据相乘，采用正数进,负数舍,保留2位小数
      *
      */

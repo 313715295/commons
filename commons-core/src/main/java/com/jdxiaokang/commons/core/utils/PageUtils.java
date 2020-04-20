@@ -17,26 +17,22 @@ public class PageUtils {
     /**
      * 分页默认页大小：10
      */
-    private static final int DEFAULT_PAGE_SIZE = 15;
+    public static final Integer DEFAULT_PAGE_SIZE = 15;
 
     /**
      * 默认当前页
      */
-    private static final int DEFAULT_PAGE = 1;
+    public static final Integer DEFAULT_PAGE = 1;
 
     /**
      * 最大页码
      */
-    private static final int MAX_PAGE_SIZE = 100;
+    public static final Integer MAX_PAGE_SIZE = 100;
 
     public static <T> IPage<T> getPage(PageParam pageParam) {
         return Optional.ofNullable(pageParam).map(param -> new Page<T>()
                 .setCurrent(Optional.ofNullable(param.getPageNum()).orElse(DEFAULT_PAGE))
                 .setPages(Optional.ofNullable(param.getPageSize()).orElse(DEFAULT_PAGE_SIZE)))
-                .orElseGet(PageUtils::getDefaultPage);
-    }
-
-    public static <T> IPage<T> getDefaultPage() {
-        return new Page<>(DEFAULT_PAGE, DEFAULT_PAGE_SIZE);
+                .orElse(null);
     }
 }
