@@ -33,6 +33,11 @@ public class BizNumberUtils {
     private static final int SECOND_OF_TIME = 1000;
 
     /**
+     * 展示部分0值
+     */
+    public static final BigDecimal SHOW_MONEY_ZERO = BigDecimal.valueOf(0,2);
+
+    /**
      * 四舍五入 保留两位数
      */
     public static BigDecimal halfUp(BigDecimal number) {
@@ -52,6 +57,15 @@ public class BizNumberUtils {
     public static BigDecimal roundFloor(BigDecimal number) {
         return Optional.ofNullable(number).map(n -> n.setScale(2, BigDecimal.ROUND_FLOOR)).orElse(BigDecimal.ZERO);
     }
+
+    /**
+     * 四舍五入,保留2位小数作展示的
+     */
+    public static BigDecimal showMoney(BigDecimal number) {
+        return Optional.ofNullable(number).map(n -> n.setScale(2, BigDecimal.ROUND_HALF_UP)).orElse(SHOW_MONEY_ZERO);
+    }
+
+
     /**
      * 我方两个数据相乘，采用正数进,负数舍,保留2位小数
      *
