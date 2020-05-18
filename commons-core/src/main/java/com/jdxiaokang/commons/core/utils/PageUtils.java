@@ -32,7 +32,7 @@ public class PageUtils {
     public static <T> IPage<T> getPage(PageParam pageParam) {
         return Optional.ofNullable(pageParam).map(param -> new Page<T>()
                 .setCurrent(Optional.ofNullable(param.getPageNum()).orElse(DEFAULT_PAGE))
-                .setPages(Optional.ofNullable(param.getPageSize()).orElse(DEFAULT_PAGE_SIZE)))
+                .setSize(Optional.ofNullable(param.getPageSize()).orElse(DEFAULT_PAGE_SIZE)))
                 .orElse(null);
     }
 }
