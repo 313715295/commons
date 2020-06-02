@@ -50,7 +50,7 @@ public class AsyncUtils {
         try {
             voidAction.action();
         } catch (Exception e) {
-            log.error("异步任务=[{}] 执行过程中发生异常:[{}]", taskName, getCallErrorLogWithCall(e));
+            log.error("异步任务=[{}] 方法调用信息=[{}],执行过程中发生异常:[{}]", taskName,voidAction.getImplMethodDetail(), getCallErrorLogWithCall(e));
         }
     }
     /**

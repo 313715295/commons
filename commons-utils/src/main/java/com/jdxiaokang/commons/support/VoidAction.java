@@ -7,7 +7,9 @@ package com.jdxiaokang.commons.support;
  * @date 2020/1/4
  */
 @FunctionalInterface
-public interface VoidAction {
+public interface VoidAction extends SerializableExpression {
 
     void action();
+
+
 }

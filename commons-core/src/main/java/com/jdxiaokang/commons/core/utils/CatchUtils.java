@@ -56,10 +56,11 @@ public class CatchUtils {
             }
         } catch (Exception runtimeException) {
             Throwable cause = runtimeException.getCause();
+            String implMethodDetail = supplier.getImplMethodDetail();
             if (cause instanceof ServiceException) {
-                log.error("dubbo rpc 服务执行异常，请检查;异常=[{}]", ThrowableUtils.getCallErrorLogWithCall(cause));
+                log.error("dubbo rpc 服务执行异常，方法调用信息=[{}],请检查;异常=[{}]",implMethodDetail,ThrowableUtils.getCallErrorLogWithCall(cause));
             } else {
-                log.error("dubbo rpc 服务执行异常，请检查;异常=[{}]", ThrowableUtils.getCallErrorLogWithCall(runtimeException));
+                log.error("dubbo rpc 服务执行异常，方法调用信息=[{}],请检查;异常=[{}]",implMethodDetail,ThrowableUtils.getCallErrorLogWithCall(runtimeException));
             }
         }
         throw exception.get();

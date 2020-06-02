@@ -105,9 +105,19 @@ public class BizNumberUtils {
      * @param divisor 除数
      */
     public static BigDecimal halfUpDivide(@Nonnull BigDecimal value, @Nonnull BigDecimal divisor) {
+        return halfUpDivide(value, divisor,2);
+    }
+
+    /**
+     * 四舍五入 保留指定位数位小数
+     * @param value 被除数
+     * @param divisor 除数
+     * @param scale 保留位数
+     */
+    public static BigDecimal halfUpDivide(@Nonnull BigDecimal value, @Nonnull BigDecimal divisor,int scale) {
         Objects.requireNonNull(value);
         Objects.requireNonNull(divisor);
-        return value.divide(divisor,2,BigDecimal.ROUND_HALF_UP);
+        return value.divide(divisor,scale,BigDecimal.ROUND_HALF_UP);
     }
 
 

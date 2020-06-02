@@ -17,12 +17,9 @@ public class ThrowableUtils {
         StackTraceElement[] arr = throwable.getStackTrace();
         StringBuilder builder = new StringBuilder();
         //打印堆栈层数
-        int length = Math.min(arr.length, 15);
         builder.append(throwable.toString()).append(':').append(throwable.getMessage()).append("\r\n");
-        for (int i = 0; i < length; i++) {
-            StackTraceElement element = arr[i];
-            builder.append("\tat ").append(element.getClassName()).append('.').append(element.getMethodName()).append(" | ")
-                    .append(element.getLineNumber()).append(")\r\n");
+        for (StackTraceElement element : arr) {
+            builder.append("\tat ").append(element.toString()).append("\r\n");
         }
         //todo 后期判断cause 是否和异常相同，如果不相同，把cause也打印完
         return builder.toString();
@@ -36,6 +33,7 @@ public class ThrowableUtils {
         //打印格式: thread | class | methodName  任务日志已经包含了前面的，现在只需返回方法名称 和行号 异常类型和消息
         return '(' + arr[0].getMethodName() + ":" + arr[0].getLineNumber() + ")|" + throwable.toString() + ':' + throwable.getMessage();
     }
+
 
 
 
