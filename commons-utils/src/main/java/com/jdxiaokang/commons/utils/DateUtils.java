@@ -111,5 +111,13 @@ public class DateUtils {
         return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
     }
 
+    /**
+     *  转换时间
+     */
+    public static LocalDateTime changeFromDate(Date date) {
+        return Optional.ofNullable(date)
+                .map(d->LocalDateTime.ofInstant(date.toInstant(),ZoneId.systemDefault()))
+                .orElse(null);
+    }
 
 }
