@@ -25,45 +25,40 @@ public class ShortUrlGenerator {
     private static final String KEY = "jingxiaokang";
 
 
-
     /**
-     * url短连接方法,采取32位MD5的16进制分两段，分别转换为52进制，截取低7/8位的做法
+     * url短连接方法,采取32位MD5的16进制分4段，每段独立转换为52进制后再拼接
      *
      * @param url 需要转换的url
-     * @return 短连接数组
+     * @return 短码
      */
-    public static String[] shortUrlMethod(String url) {
+    public static String shortUrlMethod(String url) {
         // 对传入网址进行 MD5 加密
         String hex = MD5Utils.md5(KEY + url);
-        String[] resUrl = new String[2];
+        StringBuilder stringBuilder = new StringBuilder();
         //得到 2组短链接字符串
-        for (int i = 0; i < 2; i++) {
-            //把加密字符按照 16 位一组 16 进制
-            String sTempSubString = hex.substring(i * 16, i * 16 + 16);
-            //转换为52进制 截取前8位
-            resUrl[i] = hexToFiftyTwo(sTempSubString);
+        for (int i = 0; i < 4; i++) {
+            //把加密字符按照8 位一组 16 进制
+            String sTempSubString = hex.substring(i * 8, i * 8 + 8);
+            //转换为52进制
+            stringBuilder.append(hexToFiftyTwo(sTempSubString));
         }
-        return resUrl;
+        return stringBuilder.toString();
     }
 
     /**
-     * 16进制转52进制字符串，取8位
-     * @param hex 16进制字符串
+     * 16进制转52进制字符串
+     *
+     * @param hex 16进制字符串  15位及以下长度
      * @return 字符串
      */
     private static String hexToFiftyTwo(String hex) {
-        int length = 8;
         StringBuilder builder = new StringBuilder();
         //传入的位16位16进制 Long的最大值为0x7fffffffffffffffL,可能会超过，截断一位
-        hex = hex.substring(0, hex.length() - 1);
-        Deque<String> deque =  hexToFiftyTwo(Long.parseLong(hex, 16));
+        Deque<String> deque = hexToFiftyTwo(Long.parseLong(hex, 16));
+        int length = deque.size();
         for (int i = 0; i < length; i++) {
             String first = deque.pollFirst();
-            if (first == null) {
-                builder.insert(0, "a");
-            } else {
-                builder.append(first);
-            }
+            builder.append(first);
         }
         return builder.toString();
     }

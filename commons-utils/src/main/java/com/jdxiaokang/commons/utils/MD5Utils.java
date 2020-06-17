@@ -21,21 +21,6 @@ public class MD5Utils {
     }
 
     /**
-     * 验证输入的密码是否正确
-     *
-     * @param password    真正的密码（加密后的真密码）
-     * @param inputString 输入的字符串
-     * @return 验证结果，boolean类型
-     */
-    public static boolean authenticatePassword(String password, String inputString) {
-        if (password.equals(encodeByMD5(inputString))) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
      * 对字符串进行MD5编码
      */
     private static String encodeByMD5(String originString) {
@@ -64,8 +49,8 @@ public class MD5Utils {
      */
     private static String byteArrayToHexString(byte[] b) {
         StringBuilder resultSb = new StringBuilder();
-        for (int i = 0; i < b.length; i++) {
-            resultSb.append(byteToHexStringMethod2(b[i]));
+        for (byte value : b) {
+            resultSb.append(byteToHexString(value));
         }
         return resultSb.toString();
     }
@@ -76,18 +61,9 @@ public class MD5Utils {
         if (n < 0) {
             n = 256 + n;
         }
-        int d1 = n / 16;
-        int d2 = n % 16;
+        int d1 = n >> 4;
+        int d2 = n & 15;
         return hexDigits[d1] + hexDigits[d2];
     }
-    //将一个字节转化成十六进制形式的字符串   用与运算
-    private static String byteToHexStringMethod2(byte b) {
-        int n = b & 0xff;
-        String result ="";
-        if (n < 0x10) {
-            result = "0";
-        }
-        result += Integer.toHexString(b & 0xff);
-        return result.toUpperCase();
-    }
+
 }
